@@ -73,41 +73,57 @@ const students = [
     }
 ]
 
-const createStudentComponent = (name, subject, info) => {
-    return `
-        <div class="student">
-            <h1 id="name">${name}</h1>
-            <section>${subject}</section>
-            <aside>${info}</aside>
-        </div>
-    `
-}
+// MY WAY
+// const createStudentComponent = (object) => {
+//     return `
+//        <div class="student">
+//        <h1 class="xx-large failing">${object.name}</h1>
+//             <section class="bordered dashed section--padded">${object.subject}</section>
+//             <aside class="pushRight">${object.info}</aside>
+//        </div>
+//     `   
+// }
 
-const createPassingStudentComponent = (name, subject, info) => {
-    return `
-       <div class="student">
-       <h1 class="xx-large passing">${name}</h1>
-            <section class="bordered dashed section--padded">${subject}</section>
-            <aside class="pushRight">${info}</aside>
-       </div>
-    `   
-}
+// const createPassingStudentComponent = (object) => {
+//     return `
+//        <div class="student">
+//        <h1 class="xx-large passing">${object.name}</h1>
+//             <section class="bordered dashed section--padded">${object.subject}</section>
+//             <aside class="pushRight">${object.info}</aside>
+//        </div>
+//     `   
+// }
 
 const studentContainer = document.querySelector("#container")
 
-for (let i = 0; i < students.length; i++) {
-    const student = students[i];
+// for (let i = 0; i < students.length; i++) {
+//     const student = students[i];
+//     if (student.score >= 60) {
+//     studentContainer.innerHTML += createPassingStudentComponent(students[i]);
+//     } else {
+//         studentContainer.innerHTML += createStudentComponent(students[i]);
+//     }
+// }
+
+// JOE'S WAY
+const createStudentComponent = (student) => {
+    return `
+        <div class="student">
+            <h1 class="xx-large ${student.status}">${student.name}</h1>
+            <section class="bordered dashed section--padded">${student.subject}</section>
+            <aside class="pushRight">${student.info}</aside>
+        </div>
+    `   
+}
+
+for (const student of students) {
+    let studentComponent = ""
     if (student.score >= 60) {
-    studentContainer.innerHTML += createPassingStudentComponent(
-        student.name,
-        student.subject,
-        student.info
-    );
+        student.status = "passing"
+        studentComponent = createStudentComponent(student)
     } else {
-        studentContainer.innerHTML += createStudentComponent(
-            student.name,
-            student.subject,
-            student.info
-        );
+        student.status = "failing"
+        studentComponent = createStudentComponent(student)
     }
+    studentContainer.innerHTML += studentComponent
 }
